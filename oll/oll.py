@@ -557,6 +557,23 @@ class oll(_object):
             labels.append(1 if score > 0 else -1)
         return labels
 
+    def scores(self, X):
+        """
+        scores examples from numpy/scipy array
+
+        Args
+        X : numpy.ndarray or scipy.sparse matrix,
+            shape = (n_samples, self.n_features)
+        Return
+        scores : list (float)
+        """
+        X = X.astype('float32')
+        scores = []
+        for i in range(X.shape[0]):
+            fv = self._array_to_feature_vector(X[i])
+            score = _oll.oll_classify(self, fv)
+            scores.append(score)
+        return scores
 
 oll_swigregister = _oll.oll_swigregister
 oll_swigregister(oll)
